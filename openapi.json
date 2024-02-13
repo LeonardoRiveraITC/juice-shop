@@ -1,0 +1,21 @@
+{
+    "openapi": "3.1.0",
+
+    "info":{
+        "title": "OWASP Juice shop API",
+        "description": "An (almost complete) openapi specification for the owasp juice shop, meant to be used for automated pentesting with ridgebot",
+        "version": "0.1.0",
+        "license": {
+            "name": "MIT",
+            "url": "https://www.mit.edu/~amini/LICENSE.md"
+        },
+    }
+    "server": {
+        "url":"https://solcomp-juiceshop-test.onrender.com"
+        "description":"Solcomp test server"
+    },
+    "paths":{
+        "/file-upload":
+    }
+
+}
