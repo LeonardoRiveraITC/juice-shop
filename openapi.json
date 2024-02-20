@@ -4,6 +4,12 @@
     "url":"https://solcomp-juiceshop-test.onrender.com",
     "description":"Solcomp test server"
   },
+  "security":{
+    "user_header":[
+    ],
+    "user_cookie":[
+    ]
+  },
   "components":{
     "securitySchemes":{
       "user_cookie":{
@@ -219,13 +225,21 @@
     },
     "/rest/products/{id}/reviews":{
       "put":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "parameters":{
+          [
           "name":"id",
           "in":"path",
           "schema":{
             "type":"integer",
             "example":1
           }
+        ]
         },
         "requestBody":{
           "content":{
@@ -248,6 +262,12 @@
     },
     "/profile/image/file":{
       "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "requestBody":{
           "content":{
             "multipart/form-data":{
@@ -269,6 +289,12 @@
     }, 
     "/api/BasketItems/":{
       "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "requestBody":{
           "content":{
             "application/json":{
@@ -290,8 +316,14 @@
         }
       }
     },
-    "/api/Addresses":{
+    "/api/Addresss":{
       "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "requestBody":{
           "content":{
             "application/json":{
@@ -335,6 +367,12 @@
         }
       },
       "get":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "responses":{
           "200":{
             "content":{
@@ -345,24 +383,28 @@
                       "type":"string"
                     },
                     "data":{
-                      "type":"object",
-                      "properties":{
-                        "id":{
-                          "type":"integer"
-                        },
-                        "name":{
-                          "type":"string"
-                        },
-                        "price":{
-                          "type":"integer"
-                        },
-                        "eta":{
-                          "type":"integer"
-                        },
-                        "icon":{
-                          "type":"string"
+                      "type":"array",
+                      "items":[{
+                        "type":"object",
+                        "properties":{
+                          "id":{
+                            "type":"integer"
+                          },
+                          "name":{
+                            "type":"string"
+                          },
+                          "price":{
+                            "type":"integer"
+                          },
+                          "eta":{
+                            "type":"integer"
+                          },
+                          "icon":{
+                            "type":"string"
+                          }
                         }
                       }
+                      ]
                     }
                   }
                 }
@@ -374,6 +416,12 @@
     },
     "/api/Cards":{
       "get":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
         "responses":{
           "200":{
             "content":{
@@ -406,6 +454,291 @@
                         }
                       }
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
+        "requestBody":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "status":{
+                    "type":"string"
+                  },
+                  "data":{
+                    "type":"object",
+                    "properties":{
+                      "id":{
+                        "type":"integer"
+                      },
+                      "fullName":{
+                        "type":"string"
+                      },
+                      "cardNum":{
+                        "type":"integer"
+                      },
+                      "expMonth":{
+                        "type":"integer"
+                      },
+                      "expYear":{
+                        "type":"integer"
+                      },
+                      "userId":{
+                        "type":"integer"
+                      },
+                      "updatedAt":{
+                        "type":"string"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dataerasure":{
+      "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
+        "requestBody":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "email":{
+                    "type":"string"
+                  },
+                  "securityAnswer":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Recycles":{
+      "get":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
+        "responses":{
+          "200":{
+            "content":{
+              "application/json":{
+                "schema":{
+                  "status":{
+                    "type":"string"
+                  },
+                  "data":{
+                    "type":"object",
+                    "properties":{
+                      "isPickup":{
+                        "type":"boolean"
+                      },
+                      "id":{
+                        "type":"integer"
+                      },
+                      "UserId":{
+                        "type":"integer"
+                      },
+                      "AddressId":{
+                        "type":"integer"
+                      },
+                      "quantity":{
+                        "type":"integer"
+                      },
+                      "updatedAt":{
+                        "type":"string"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+          }
+        }
+      },
+      "post":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
+        "requestBody":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "AddressId":{
+                    "type":"integer"
+                  },
+                  "quantity":{
+                    "type":"integer"
+                  },
+                  "UserId":{
+                    "type":"integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/user/change-password?current=curr&new=new&rep=curr":{
+      "get":{
+        "security":{
+          "user_header":[
+          ],
+          "user_cookie":[
+          ]
+        },
+        "parameters":{[
+          {
+            "name":"curr",
+            "in":"query",
+            "schema":{
+              "type":"string",
+              "example":"pass"
+            }
+          },
+          {
+            "name":"new",
+            "in":"query",
+            "schema":{
+              "type":"string",
+              "example":"pass"
+            }
+          }
+        ]},
+    }
+  },
+  "/rest/chatbot/respond":{
+    "post":{
+      "security":{
+        "user_header":[
+        ],
+        "user_cookie":[
+        ]
+      },
+      "requestBody":{
+        "content":{
+          "application/json":{
+            "schema":{
+              "properties":{
+                "action":{
+                  "type":"string"
+                },
+                "query":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses":{
+        "200":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "action":{
+                    "type":"string"
+                  },
+                  "body":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/rest/memories":{
+    "post":{
+      "security":{
+        "user_header":[
+        ],
+        "user_cookie":[
+        ]
+      },
+      "requestBody":{
+        "content":{
+          "multipart/form-data":{
+            "schema":{
+              "properties":{
+                "file":{
+                  "type":"array",
+                  "items":[]
+                },
+                "name":{
+                  "type":"string"
+                },
+                "filename":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses":{
+        "200":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "id":{
+                    "type":"integer"
+                  },
+                  "caption":{
+                    "type":"string"
+                  },
+                  "imagePath":{
+                    "type":"string"
+                  },
+                  "UserId":{
+                    "type":"integer"
+                  },
+                  "updatedAt":{
+                    "type":"string"
+                  },
+                  "createdAt":{
+                    "type":"string"
                   }
                 }
               }
