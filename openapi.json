@@ -231,15 +231,16 @@
           "user_cookie":[
           ]
         },
-        "parameters":{
-          [
+        "parameters":[
+          {
           "name":"id",
           "in":"path",
           "schema":{
             "type":"integer",
             "example":1
           }
-        ]
+        }
+          ]
         },
         "requestBody":{
           "content":{
@@ -624,24 +625,22 @@
           "user_cookie":[
           ]
         },
-        "parameters":{[
-          {
-            "name":"curr",
+        "parameters":[
+            {"name":"curr",
             "in":"query",
             "schema":{
               "type":"string",
               "example":"pass"
             }
           },
-          {
-            "name":"new",
+            {"name":"new",
             "in":"query",
             "schema":{
               "type":"string",
               "example":"pass"
             }
-          }
-        ]},
+            }
+          ]
     }
   },
   "/rest/chatbot/respond":{
