@@ -1,15 +1,24 @@
 {
-  "openapi": "3.1.0",
-  "server": {
+  "openapi": "3.0.0",
+  "servers": [{
     "url":"https://solcomp-juiceshop-test.onrender.com",
     "description":"Solcomp test server"
-  },
-  "security":{
+  }],
+      "info":{
+        "title": "OWASP Juice shop API",
+        "description": "An (almost complete) openapi specification for the owasp juice shop, meant to be used for automated pentesting with ridgebot",
+        "version": "0.1.0",
+        "license": {
+            "name": "MIT",
+            "url": "https://www.mit.edu/~amini/LICENSE.md"
+        },
+    },
+  "security":[
     "user_header":[
     ],
     "user_cookie":[
     ]
-  },
+  ],
   "components":{
     "securitySchemes":{
       "user_cookie":{
@@ -22,8 +31,7 @@
         "type":"apiKey",
         "description":"user supplied header",
         "name":"Authorization",
-        "in":"header",
-        "scheme":"Bearer"
+        "in":"header"
       }
     }
   },
@@ -32,6 +40,7 @@
       "get":{
         "responses":{
           "200":{
+          "description":"logs",
             "content":{
               "text/html":{
 
@@ -45,6 +54,7 @@
       "get":{
         "responses":{
           "200":{
+            "description":"policy",
             "content":{
               "text/html":{
 
@@ -100,6 +110,39 @@
               }
             }
           }
+        },
+        "responses":{
+          "201":{
+            "description":"User data response",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "status":{
+                      "type":"string"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "role":{
+                          "type":"string",
+                          "description":"customer role"
+                        },
+                        "lastLoginIp":{
+                          "type":"string",
+                          "description":"last login ip"
+                        },
+                        "profileImage":{
+                          "type":"string",
+                          "description":"servers path to pfp"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -119,6 +162,50 @@
                   },
                   "UserId":{
                     "type":"integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses":{
+          "201":{
+            "description":"Security answer for registration",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "status":{
+                      "type":"string",
+                      "description":"Request status"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "id":{
+                          "description":"System ID",
+                          "type":"integer"
+                        },
+                        "UserId":{
+                          "description":"User id",
+                          "type":"integer"
+                        },
+                        "answer":{
+                          "description":"md5 encrypted answer",
+                          "type":"string"
+                        },
+                        "SecurityQuestion":{
+                          "description":"Security question id",
+                          "type":"integer"
+                        },
+                        "updatedAt":{
+                          "type":"string"
+                        },
+                        "createdAt":{
+                          "type":"string"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -196,6 +283,7 @@
         },
         "responses":{
           "200":{
+            "description":"User login schema",
             "content":{
               "application/json":{
                 "schema":{
@@ -225,23 +313,25 @@
     },
     "/rest/products/{id}/reviews":{
       "put":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
-        "parameters":[
+        "security":[
           {
-          "name":"id",
-          "in":"path",
-          "schema":{
-            "type":"integer",
-            "example":1
+          "user_header":[]
+          },
+          {
+          "user_cookie":[]
           }
-        }
-          ]
-        },
+        ],
+        "parameters":[
+            {
+            "name":"id",
+            "in":"path",
+            "required": true,
+                "schema":{
+                  "type":"integer",
+                  "example":1
+                }
+            }
+          ],
         "requestBody":{
           "content":{
             "application/json":{
@@ -258,44 +348,74 @@
               }
             }
           }
-        }
-      }
-    },
-    "/profile/image/file":{
-      "post":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
         },
-        "requestBody":{
-          "content":{
-            "multipart/form-data":{
-              "schema":{
-                "properties":{
-                  "file":{
-                    "type":"array",
-                    "items":[]
-                  },
-                  "name":{
-                    "type":"string"
+        "responses":{
+          "201":{
+            "description":"response for uploading a review",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "status":{
+                      "type":"string",
+                      "description":"Response status"
+                    }
                   }
                 }
               }
             }
           }
         }
+        },
+    },
+    "/profile/image/file":{
+      "post":{
+        "security":[
+          {
+          "user_header":[
+          ]
+          },
+          {
+          "user_cookie":[
+          ]
+          }
+        ],
+        "requestBody":{
+          "content":{
+            "multipart/form-data":{
+              "schema":{
+                "properties":{
+                  "filename":{
+                    "type":"string",
+                    "format": "binary"
+                  }                  
+                }
+              }
+            }
+          }
+        },
+      "responses":{
+       "302":{
+         "description":"response page after succesful upload",
+         "content":{
+           "text/html":{
+             
+           }
+         }
+       }
+      }        
       }
     }, 
     "/api/BasketItems/":{
       "post":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
+        "security":[
+          {
+          "user_header":[]
+          },
+          {
+          "user_cookie":[]
+          }
+        ],
         "requestBody":{
           "content":{
             "application/json":{
@@ -314,17 +434,60 @@
               }
             }
           }
+        },
+      "responses":{
+        "200":{
+          "description":"basket items response",
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "status":{
+                    "type":"string",
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "id":{
+                          "type":"integer"
+                        },
+                        "productId":{
+                          "type":"integer"
+                        },
+                        "BasketId":{
+                          "type":"string"
+                        },
+                        "quantity":{
+                          "type":"integer"
+                        },
+                        "updatedAt":{
+                          "type":"string"
+                        },
+                        "createdAt":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
-    },
+  },
     "/api/Addresss":{
       "post":{
-        "security":{
+        "security":[
+          {
           "user_header":[
-          ],
+          ]
+          },
+          {
           "user_cookie":[
           ]
-        },
+          }
+        ],
         "requestBody":{
           "content":{
             "application/json":{
@@ -355,27 +518,81 @@
               }
             }
           }
+      },
+      "responses":{
+        "200":{
+          "description":"Upload user address",
+          "content":{
+            "application/json":{
+              "schema":{
+                "properties":{
+                  "status":{
+                    "type":"string"
+                  },
+                  "data":{
+                    "type":"object",
+                    "properties":{
+                      "id":{
+                        "type":"integer"
+                      },
+                      "country":{
+                        "type":"string"
+                      },
+                      "fullName":{
+                        "type":"string"
+                      },
+                      "nombileNum":{
+                        "type":"integer"
+                      },
+                      "zipCode":{
+                        "type":"string"
+                      },
+                      "streetAddress":{
+                        "type":"string"
+                      },
+                      "UserId":{
+                        "type":"integer"
+                      },
+                      "updatedAt":{
+                        "type":"string"
+                      },
+                      "createdAt":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
+       }        
       }
     },
     "/api/Deliverys/{id}":{
-      "parameters":{
+      "parameters":[
+        {
         "name":"id",
+        "required":true,
         "in":"path",
         "schema":{
           "type":"integer",
           "example":1
         }
-      },
+        }
+      ],
       "get":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
+        "security":[
+          {
+          "user_header":[]
+          },
+          {
+          "user_cookie":[]
+          }
+        ],
         "responses":{
           "200":{
+            "description":"retrieve users deliveries",
             "content":{
               "application/json":{
                 "schema":{
@@ -385,7 +602,7 @@
                     },
                     "data":{
                       "type":"array",
-                      "items":[{
+                      "items":{
                         "type":"object",
                         "properties":{
                           "id":{
@@ -405,7 +622,7 @@
                           }
                         }
                       }
-                      ]
+                      
                     }
                   }
                 }
@@ -417,14 +634,19 @@
     },
     "/api/Cards":{
       "get":{
-        "security":{
+        "security":[
+          {
           "user_header":[
-          ],
+          ]
+          },
+          {
           "user_cookie":[
           ]
-        },
+          }
+        ],
         "responses":{
           "200":{
+            "description":"get all user cards",
             "content":{
               "application/json":{
                 "schema":{
@@ -463,12 +685,14 @@
         }
       },
       "post":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
+        "security":[
+          {
+          "user_header":[]
+          },
+          {
+          "user_cookie":[]
+          }
+        ],
         "requestBody":{
           "content":{
             "application/json":{
@@ -511,27 +735,38 @@
               }
             }
           }
-        }
-      }
-    },
-    "/dataerasure":{
-      "post":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
         },
-        "requestBody":{
-          "content":{
-            "application/json":{
-              "schema":{
-                "properties":{
-                  "email":{
-                    "type":"string"
-                  },
-                  "securityAnswer":{
-                    "type":"string"
+        "responses":{
+          "201":{
+            "description":"succesful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "id":{
+                      "type":"integer"
+                    },
+                    "fullName":{
+                      "type":"string"
+                    },
+                    "cardNum":{
+                      "type":"integer"
+                    },
+                    "expMonth":{
+                      "type":"integer"
+                    },
+                    "expYear":{
+                      "type":"integer"
+                    },
+                    "UserId":{
+                      "type":"integer"
+                    },
+                    "updatedAt":{
+                      "type":"string"
+                    },
+                    "createdAt":{
+                      "type":"string"
+                    }
                   }
                 }
               }
@@ -542,17 +777,21 @@
     },
     "/api/Recycles":{
       "get":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
+        "security":[
+          {
+          "user_header":[]
+          },
+          {
+          "user_cookie":[]
+          }
+        ],
         "responses":{
           "200":{
+            "description":"Get recycle items",
             "content":{
               "application/json":{
                 "schema":{
+                  "properties":{
                   "status":{
                     "type":"string"
                   },
@@ -585,17 +824,21 @@
                 }
               }
             }
-
           }
         }
-      },
+      }
+    },
       "post":{
-        "security":{
+        "security":[
+          {
           "user_header":[
-          ],
+          ]
+          },
+          {
           "user_cookie":[
           ]
-        },
+          }
+        ],
         "requestBody":{
           "content":{
             "application/json":{
@@ -614,43 +857,63 @@
               }
             }
           }
+        },
+        "responses":{
+          "201":{
+            "description":"Succesful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "status":{
+                      "type":"string"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "isPickup":{
+                          "type":"boolean"
+                        },
+                        "id":{
+                          "type":"integer"
+                        },
+                        "UserId":{
+                          "type":"integer"
+                        },
+                        "AccessId":{
+                          "type":"integer"
+                        },
+                        "quantity":{
+                          "type":"integer"
+                        },
+                        "updatedAt":{
+                          "type":"string"
+                        },
+                        "createdAt":{
+                          "type":"string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
-    "/rest/user/change-password?current=curr&new=new&rep=curr":{
-      "get":{
-        "security":{
-          "user_header":[
-          ],
-          "user_cookie":[
-          ]
-        },
-        "parameters":[
-            {"name":"curr",
-            "in":"query",
-            "schema":{
-              "type":"string",
-              "example":"pass"
-            }
-          },
-            {"name":"new",
-            "in":"query",
-            "schema":{
-              "type":"string",
-              "example":"pass"
-            }
-            }
-          ]
-    }
-  },
   "/rest/chatbot/respond":{
     "post":{
-      "security":{
+      "security":[
+        {
         "user_header":[
-        ],
+        ]
+        },
+        {
         "user_cookie":[
         ]
-      },
+        }
+      ],
       "requestBody":{
         "content":{
           "application/json":{
@@ -669,6 +932,7 @@
       },
       "responses":{
         "200":{
+          "description":"chatbot response",
           "content":{
             "application/json":{
               "schema":{
@@ -689,12 +953,16 @@
   },
   "/rest/memories":{
     "post":{
-      "security":{
+      "security":[
+        {
         "user_header":[
-        ],
+        ]
+        },
+        {
         "user_cookie":[
         ]
-      },
+        }
+      ],
       "requestBody":{
         "content":{
           "multipart/form-data":{
@@ -702,7 +970,7 @@
               "properties":{
                 "file":{
                   "type":"array",
-                  "items":[]
+                  "items":{}
                 },
                 "name":{
                   "type":"string"
@@ -717,6 +985,7 @@
       },
       "responses":{
         "200":{
+          "description":"Chatbot response",
           "content":{
             "application/json":{
               "schema":{
@@ -747,4 +1016,5 @@
       }
     }
   }
+}
 }
